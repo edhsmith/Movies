@@ -18,6 +18,8 @@
             <tr ng-repeat="m in movieList.Movies">
                 <td><p>{{m.Year}}</p></td>
                 <td><p>{{m.Title}}</p></td>
+                <td><img src="{{m.Poster}}" width="240" height="320"/></td>
+                <td><a href="/Main/GetMovieDetail?id={{m.ID}}">Show</a></td>
             </tr>
         </table>
     </div>
