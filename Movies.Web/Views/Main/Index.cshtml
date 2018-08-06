@@ -3,21 +3,32 @@
 *@
 @{
 }
-<textarea class="form-control" id="txtResult">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="/js/app.js"></script>
 
-</textarea>
+<div ng-app="movies">
+    <div ng-controller="moviesListController">
+        <p>count = {{movieList.Movies.length}}</p>
+
+        <table class="table">
+            <tr>
+                <td>Year</td>
+                <td>Title</td>
+            </tr>
+            <tr ng-repeat="m in movieList.Movies">
+                <td><p>{{m.Year}}</p></td>
+                <td><p>{{m.Title}}</p></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 
 
 @section Scripts{
-<script>
-var movies;
 
-$(document).ready(function() {
-    $.get("/Main/GetMovies",function(data){
-        $("#txtResult").val(data);
-        movies = JSON.parse(data);
-    });  
-});
 
-</script>
+    <script>$(document).ready(function() {
+
+});</script>
 }

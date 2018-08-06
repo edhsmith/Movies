@@ -11,4 +11,10 @@
   <ItemGroup>
     <Folder Include="Views\Main\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\js\app.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\js\app.js" />
+  </ItemGroup>
 </Project>
