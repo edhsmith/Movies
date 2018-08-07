@@ -9,116 +9,77 @@
 <div ng-app="movies">
 
     <div ng-controller="moviesListController" ng-init="refresh()">
-        <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
-            <!--Indicators-->
-            <ol class="carousel-indicators" ng-init="$index=1">
-                <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-1z" ng-repeat="m in movieList.Movies" data-slide-to="{{$index+1}}"></li>               
-            </ol>
-            <!--/.Indicators-->
-            <!--Slides-->
-            <div class="carousel-inner" role="listbox">
-                <!--First slide-->
-                <div class="item active">
-                    <p>Start</p>
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg" alt="First slide">                  
-                </div>
-                <!--/First slide-->
-                <!--Second slide-->
-                <div class="item" ng-repeat="m in movieList.Movies">
-                    <p>{{m.Title}}</p>
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg" alt="Second slide">
-                </div>
-                <!--/Second slide-->
-                <!--Third slide-->
-                @*<div class="item">
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="Third slide">
-                </div>*@
-                <!--/Third slide-->
-            </div>
-            <!--/.Slides-->
-            <!--Controls-->
-            <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            <!--/.Controls-->
-        </div>
-        </div>
-    </div>
-        @*   <div ng-app="movies">
 
-                <div ng-controller="moviesListController" ng-init="refresh()">
-
-                <table class="table" ng-init="refresh()">
-                <tr>
-                    <td>Year</td>
-                    <td>Title</td>
-                    <td></td>
-                </tr>
+        <table class="table-bordered" style="width:70%;">
+            <tbody>
                 <tr ng-repeat="m in movieList.Movies">
-                    <td><p>{{m.Year}}</p></td>
-                    <td><p>{{m.Title}}</p></td>
-                    <td><img src="{{m.Poster}}" width="240" height="320"/></td>
-                <td><a style="cursor:pointer" ng-click="showDetail(m.ID)">Show</a></td>
-                </tr>
-                </table>
-
-                <div id="detail " class="table-responsive">
-                    <div class="row">
-                        <div class="col-sm-1">Title</div><div class="col-sm-11">{{movieDetail.Title}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <img src="{{movieDetail.Poster}}" alt="" />
+                    <td><img src="{{m.Poster}}" style="width:240px;height:180px;" onerror="img_error(this)" /></td>
+                    <td style="vertical-align:top;">
+                        <div class="row modal-header">
+                            <div class="col-md-2">{{$index + 1}} - {{m.Year}}</div>
+                            <div class="col-md-8">{{m.Title}}</div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1">Year</div>
-                        <div class="col-sm-1">{{movieDetail.Year}}</div>
-                        <div class="col-sm-1">Rating</div>
-                        <div class="col-sm-1">{{movieDetail.Rating}}</div>
-                        <div class="col-sm-2">Meta Score</div>
-                        <div class="col-sm-1">{{movieDetail.Metascore}}</div>
-                        <div class="col-sm-1">Votes</div>
-                        <div class="col-sm-4">{{movieDetail.Votes}}</div>
-                    </div>
-                    <div class="row">
-
-                    </div>
-                </div>
-                <textarea>
-                    {{movieDetail}}
-                </textarea>
-
-                    </div>
-            </div>
-        *@
-
-
+                       
+                        @*<input type="button" class="btn" onclick="showDetail(this)" value="Detail" ref="{{m.ID}}" controlId="{{$index}}"/>*@
+                        <div class="row hidden" controlId="{{$index}}" ref="{{m.ID}}">                           
+                            <div class="col-md-2"><span style="font-weight:bold">Rated&nbsp;</span><span id="rated{{$index}}"></span></div>
+                            <div class="col-md-2"><span style="font-weight:bold">Rating&nbsp;</span><span id="rating{{$index}}"></span></div>
+                            <div class="col-md-5"><span style="font-weight:bold">Release Date &nbsp;</span><span id="released{{$index}}"></span></div>
+                            <div class="col-md-3"><span style="font-weight:bold">Runtime&nbsp;</span><span id="runtime{{$index}}"></span></div>
+                        </div>   
+                        <div class="row hidden" controlId="{{$index}}">
+                            <div class="col-md-12"><span style="font-weight:bold">Staring&nbsp;</span><span id="actors{{$index}}"></span></div>
+                        </div>
+                        <div class="row hidden" controlId="{{$index}}">
+                            <div class="col-md-12"><span style="font-weight:bold">Price&nbsp;</span><span id="price{{$index}}"></span></div>
+                            
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       
+    </div>
+    </div>
+      
 
         @section Scripts{
 
             <script>
                 //var moviesControllerScope;
+                function img_error(src) {
+                    src.src = "/Content/img/image_na.png"
+                }
 
-                $(document).ready(function () {
-                    //    var div = $("div[ng-controller=\"moviesListController\"]")[0];
-                    //    moviesControllerScope = angular.element(div).scope();
+                function showDetail(id,idx) {
+                    //var id = e.attributes["ref"].value;
+                    //var idx = e.attributes["controlId"].value;
 
-                    //    $("a").click(function (e) {
-                    //        var id = e.toElement.attributes["dataId"].value;
+                    $.ajax({
+                        url: "/Main/GetMovieDetail/" + id,
+                        async: true,
+                        success: function (data) {
+                            var movieDetail = JSON.parse(data);
+                            $("#rated" + idx).html(movieDetail.Rated);
+                            $("#rating" + idx).html(movieDetail.Rating);
+                            $("#released" + idx).html(movieDetail.Released);
+                            $("#runtime" + idx).html(movieDetail.Runtime);
+                            $("#actors" + idx).html(movieDetail.Actors);
+                            $("#price" + idx).html(movieDetail.Price);
+                            $("div[controlId=" + idx + "]").removeClass("hidden");
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            
+                            alert("error");
+                        }
+                    });
 
-                    //        moviesControllerScope.showDetail(id);
-                    //        //moviesControllerScope.movieDetail = "Hello World";
-                    //        moviesControllerScope.$apply.apply();
-                    //    });
-                    // $("#carousel-example-1z").carousel();
-                });
+                   
+
+
+                }
+
+              
             </script>
 
         }
