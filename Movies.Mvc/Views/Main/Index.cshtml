@@ -4,13 +4,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.1/angular.min.js"></script>
 <script src="~/Scripts/app.js"></script>
-
+<script>
+    var arr = [];
+</script>
 
 <div ng-app="movies">
 
     <div ng-controller="moviesListController" ng-init="refresh()">
 
-        <table class="table-bordered" style="width:70%;">
+        <table class="table-bordered">
             <tbody>
                 <tr ng-repeat="m in movieList.Movies">
                     <td><img src="{{m.Poster}}" style="width:240px;height:180px;" onerror="img_error(this)" /></td>
@@ -18,8 +20,7 @@
                         <div class="row modal-header">
                             <div class="col-md-2">{{$index + 1}} - {{m.Year}}</div>
                             <div class="col-md-8">{{m.Title}}</div>
-                        </div>
-                       
+                        </div>                       
                         @*<input type="button" class="btn" onclick="showDetail(this)" value="Detail" ref="{{m.ID}}" controlId="{{$index}}"/>*@
                         <div class="row hidden" controlId="{{$index}}" ref="{{m.ID}}">                           
                             <div class="col-md-2"><span style="font-weight:bold">Rated&nbsp;</span><span id="rated{{$index}}"></span></div>
@@ -31,7 +32,7 @@
                             <div class="col-md-12"><span style="font-weight:bold">Staring&nbsp;</span><span id="actors{{$index}}"></span></div>
                         </div>
                         <div class="row hidden" controlId="{{$index}}">
-                            <div class="col-md-12"><span style="font-weight:bold">Price&nbsp;</span><span id="price{{$index}}"></span></div>
+                            <div class="col-md-12"><span style="font-weight:bold">Price&nbsp;</span><span id="price{{$index}}" ng-init="getDetail(m.ID,$index)"></span></div>
                             
                         </div>
                     </td>
@@ -50,35 +51,6 @@
                 function img_error(src) {
                     src.src = "/Content/img/image_na.png"
                 }
-
-                function showDetail(id,idx) {
-                    //var id = e.attributes["ref"].value;
-                    //var idx = e.attributes["controlId"].value;
-
-                    $.ajax({
-                        url: "/Main/GetMovieDetail/" + id,
-                        async: true,
-                        success: function (data) {
-                            var movieDetail = JSON.parse(data);
-                            $("#rated" + idx).html(movieDetail.Rated);
-                            $("#rating" + idx).html(movieDetail.Rating);
-                            $("#released" + idx).html(movieDetail.Released);
-                            $("#runtime" + idx).html(movieDetail.Runtime);
-                            $("#actors" + idx).html(movieDetail.Actors);
-                            $("#price" + idx).html(movieDetail.Price);
-                            $("div[controlId=" + idx + "]").removeClass("hidden");
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            
-                            alert("error");
-                        }
-                    });
-
-                   
-
-
-                }
-
               
             </script>
 
