@@ -7,51 +7,81 @@
 <script>
     var arr = [];
 </script>
+<div id="loader" class="loader loader-default"></div>
 
 <div ng-app="movies">
 
     <div ng-controller="moviesListController" ng-init="refresh()">
-
+        <div>
+            <button class="btn btn-default" ng-click="identifyCheapest()">Choose Cheapest</button>
+        </div>
         <table class="table-bordered">
             <tbody>
                 <tr ng-repeat="m in movieList.Movies">
                     <td><img src="{{m.Poster}}" style="width:240px;height:180px;" onerror="img_error(this)" /></td>
-                    <td style="vertical-align:top;">
-                        <div class="row modal-header">
-                            <div class="col-md-2">{{$index + 1}} - {{m.Year}}</div>
-                            <div class="col-md-8">{{m.Title}}</div>
-                        </div>                       
-                        @*<input type="button" class="btn" onclick="showDetail(this)" value="Detail" ref="{{m.ID}}" controlId="{{$index}}"/>*@
-                        <div class="row hidden" controlId="{{$index}}" ref="{{m.ID}}">                           
-                            <div class="col-md-2"><span style="font-weight:bold">Rated&nbsp;</span><span id="rated{{$index}}"></span></div>
-                            <div class="col-md-2"><span style="font-weight:bold">Rating&nbsp;</span><span id="rating{{$index}}"></span></div>
-                            <div class="col-md-5"><span style="font-weight:bold">Release Date &nbsp;</span><span id="released{{$index}}"></span></div>
-                            <div class="col-md-3"><span style="font-weight:bold">Runtime&nbsp;</span><span id="runtime{{$index}}"></span></div>
-                        </div>   
-                        <div class="row hidden" controlId="{{$index}}">
-                            <div class="col-md-12"><span style="font-weight:bold">Staring&nbsp;</span><span id="actors{{$index}}"></span></div>
-                        </div>
-                        <div class="row hidden" controlId="{{$index}}">
-                            <div class="col-md-12"><span style="font-weight:bold">Price&nbsp;</span><span id="price{{$index}}" ng-init="getDetail(m.ID,$index)"></span></div>
-                            
+                    <td class="row" style="vertical-align:top;">
+                        <div class="table">
+                            <div class="row modal-header" controlId="{{$index }}">
+                                <div class="col-md-3">{{$index + 1}}.&nbsp;<span style="font-weight:bold">Year</span> {{m.Year}}</div>
+                                <div class="col-md-8">{{m.Title}}</div>
+                            </div>
+                            @*<input type="button" class="btn" onclick="showDetail(this)" value="Detail" ref="{{m.ID}}" controlId="{{$index}}"/>*@
+
+                            <div class="row hidden" controlId="{{$index}}" ref="{{m.ID}}">
+                                <div class="col-md-2"><span style="font-weight:bold">Rated&nbsp;</span><span id="rated{{$index}}"></span></div>
+                                <div class="col-md-2"><span style="font-weight:bold">Rating&nbsp;</span><span id="rating{{$index}}"></span></div>
+                                <div class="col-md-5"><span style="font-weight:bold">Release Date &nbsp;</span><span id="released{{$index}}"></span></div>
+                                <div class="col-md-3"><span style="font-weight:bold">Runtime&nbsp;</span><span id="runtime{{$index}}"></span></div>
+                            </div>
+                            <div class="row hidden" controlId="{{$index}}">
+                                <div class="col-md-12"><span style="font-weight:bold">Staring&nbsp;</span><span id="actors{{$index}}"></span></div>
+                            </div>
+                            <div class="row hidden" id="NoDetail{{$index}}">
+                                <div class="col-sm-6 col-md-6 label-info h4">
+                                    <p>Details coming soon.</p>
+                                </div>
+                            </div>
+                            <div class="row hidden" controlId="{{$index}}">
+                                <div class="col-md-12"><span style="font-weight:bold">Price&nbsp;</span><span id="price{{$index}}" ng-init="getDetail(m.ID,$index)"></span></div>
+                            </div>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-       
-    </div>
-    </div>
-      
 
-        @section Scripts{
+        <div class="modal" id="nomovieModal" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>No movies at the moment.</p>
+                        <p>Please check again later.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
 
-            <script>
-                //var moviesControllerScope;
-                function img_error(src) {
-                    src.src = "/Content/img/image_na.png"
-                }
-              
-            </script>
 
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/loader/css-loader.css" />
+    <script>
+        //var moviesControllerScope;
+        function img_error(src) {
+            src.src = "/Content/img/image_na.png"
         }
+
+        function loader(display) {
+            if (display) {
+                $("#loader").addClass("is-active");
+            }
+            else {
+                $("#loader").removeClass("is-active");
+            }
+        }
+    </script>
+
+}

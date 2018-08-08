@@ -19,30 +19,26 @@ namespace Movies.Mvc.Controllers
         }
 
         public JsonResult GetMovies(){
-
-            WebRequest req = WebRequest.CreateHttp("http://webjetapitest.azurewebsites.net/api/filmworld/movies");
-            req.Headers.Add("x-access-token", "sjd1HfkjU83ksdsm3802k");
-            string result = string.Empty;
+            string url = "http://webjetapitest.azurewebsites.net/api/filmworld/movies";
+            string data = Get(url);
            
-
-            using(HttpWebResponse resp = (HttpWebResponse)req.GetResponse()){
-                using(StreamReader sr = new StreamReader(resp.GetResponseStream())){
-                    result = sr.ReadToEnd();
-                 
-                    sr.Close();
-                }
-                resp.Close();
-            }
-
-           
-            return this.Json(result,JsonRequestBehavior.AllowGet);
+            return this.Json(data,JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetMovieDetail(string id){
-            WebRequest req = WebRequest.CreateHttp("https://webjetapitest.azurewebsites.net/api/filmworld/movie/" + id);
+            string url = "https://webjetapitest.azurewebsites.net/api/filmworld/movie/" + id;
+            string data = Get(url);
+
+            return this.Json(data,JsonRequestBehavior.AllowGet);
+        }
+
+       
+        private string Get(string url)
+        {
+            WebRequest req = WebRequest.CreateHttp(url);
             req.Headers.Add("x-access-token", "sjd1HfkjU83ksdsm3802k");
             req.Method = "GET";
-
+            req.Timeout = 5000;
             string result = string.Empty;
             using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
             {
@@ -53,11 +49,9 @@ namespace Movies.Mvc.Controllers
                 }
                 resp.Close();
             }
-            return this.Json(result,JsonRequestBehavior.AllowGet);
+
+            return result;
         }
-
-       
-
 
     }
 }
